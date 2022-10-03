@@ -1,12 +1,13 @@
 <?php 
 	session_start();
 	$address=$_SERVER['REMOTE_ADDR'];
-	//echo $address;
+	echo $address;
 
+	$error=null;
 	$MAC = exec('getmac');
 	$MAC = strtok($MAC, ' ');
 	//echo $MAC;
-	print_r($_SESSION);
+	//print_r($_SESSION);
 
 	require('C:\xampp\htdocs\Attendance\mydb.php');
 	$query="SELECT active FROM ADMIN";
@@ -18,8 +19,9 @@
 	}
 	$_SESSION['subject']=$subject;
 	
-	$query="SELECT id FROM ATTENDANCE WHERE address='$address';";
+	$query="SELECT sid FROM $subject WHERE address='$address' AND date=CURDATE();";
 	$result=mysqli_query($connection, $query);
+	//echo $query;
 	if(mysqli_num_rows($result))
 	{
 		//echo "Already Submitted";
@@ -27,8 +29,11 @@
 		
 		while($row=mysqli_fetch_assoc($result))
 		{
-			$_SESSION['id']=$row['id'];
+			echo $row['sid'].'<br>';
+			$_SESSION['id']=$row['sid'];
 		}
+		//print_r($_SESSION);
+		$_SESSION['address']=$address;
 		header('Location:submitted.php');
 
 	}
@@ -38,39 +43,38 @@
 		{
 			$id=$_POST['id'];
 			$section='Sec-B';
-			$query="SELECT id FROM ATTENDANCE WHERE id='$id';";
+			echo "<h1>$id</h1>";
+			$query="INSERT INTO $subject VALUES('$id', 'Present', '$address', CURDATE());";
+			echo $query;
 			$result=mysqli_query($connection, $query);
-			if(mysqli_num_rows($result))
+			if($result)
 			{
-				$query="UPDATE ATTENDANCE SET $subject='Present', address='$address' WHERE id='$id';";
-				$result=mysqli_query($connection, $query);
-				if($result)
-				{
-					//echo "Success";
-				}
-				else
-				{
-					//echo "FAIL";
-				}
-				echo "<br>".$query;
-				//echo "<h1>Updated</h1>";
+				$_SESSION['id']=$id;
+				header('Location:done.php');	
 			}
 			else
 			{
-				$query="INSERT INTO ATTENDANCE(id, date, section, $subject, address) VALUES('$id', CURDATE(), '$section', 'Present', '$address')";
-				$result=mysqli_query($connection, $query);
-				if($result)
-				{
-					//echo "Success";
-				}
-				//echo "<h1>Inserted</h1>";
-				//header('Location:submitted.php');
+				$error = "<h1 class='text-warning'>$id is not from Sec-B</h1>";
 			}
-			header('Location:done.php');
-			$_SESSION['id']=$id;
+			
 		}
-		
 	}
+	
+	function GetClientMac(){
+    $macAddr=false;
+    $arp=`arp -n`;
+    $lines=explode("\n", $arp);
+
+    foreach($lines as $line){
+        $cols=preg_split('/\s+/', trim($line));
+
+        if ($cols[0]==$_SERVER['REMOTE_ADDR']){
+            $macAddr=$cols[2];
+        }
+    }
+
+    return $macAddr;
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,6 +105,7 @@
 
 					<button type="submit" name="submit" value="submit" class="btn btn-success form-control my-3">Present</button>
 				</form>
+				<?php echo $error;?>
 			</div>
 		</div>
 	</div>

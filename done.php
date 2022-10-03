@@ -2,7 +2,7 @@
 	session_start();
 	$id=$_SESSION['id'];
 	$subject=$_SESSION['subject'];
-	print_r($_SESSION);
+	//print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html>
