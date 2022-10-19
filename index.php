@@ -60,6 +60,14 @@
 		}
 	}
 	
+	function islocal($address)
+	{
+		if($address)
+		{
+
+		}
+	}
+
 	function GetClientMac(){
     $macAddr=false;
     $arp=`arp -n`;
@@ -107,6 +115,7 @@
 				</form>
 				<?php echo $error;?>
 			</div>
+			<a href=".admin">Admin</a>
 		</div>
 	</div>
 </body>

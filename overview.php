@@ -1,76 +1,4 @@
-<?php 
-	session_start();
 
-	function set_subject($subject)
-	{
-		require('C:\xampp\htdocs\Attendance\mydb.php');
-		$query="UPDATE ADMIN SET active='$subject';";
-		$result=mysqli_query($connection, $query);
-		if($result)
-		{
-			//echo $subject;
-		}
-		else
-		{
-			echo $query."<br>";
-			echo "error: ".mysqli_error($result);
-		}
-	}
-
-	function show_abscentees($subject)
-	{	
-		echo "<h1>Abscentees</h1>";
-		echo "<a class='btn btn-success mb-3' id='download_abscentees'>Download</a>";
-		require('C:\xampp\htdocs\Attendance\mydb.php');
-		$query="SELECT * FROM SEC_B WHERE id NOT IN (SELECT sid FROM $subject WHERE date=CURDATE()) ORDER BY s_no;";
-		$result=mysqli_query($connection, $query);
-		if($result)
-		{
-			if(mysqli_num_rows($result))
-			{
-				echo "<table border id='abscent'>";
-				echo "<yr><th>S. No</th><th>ID</th><th>Name</th><th>Subject</th><th>Status</th></tr>";
-				while($row=mysqli_fetch_assoc($result))
-				{
-					echo "<tr><td>".$row['s_no']."</td><td>".$row['id']."</td><td>".$row['name']."</td><td>".$subject."</td><td>Abscent</td></tr>";
-				}
-				echo "</table>";
-			}
-		}
-		else
-		{
-			echo $query."<br>";
-			echo "error: ".mysqli_error($result);
-		}
-	}
-
-	function show_presentees($subject)
-	{
-		echo "<h1>Presentees</h1>";
-		echo "<a class='btn btn-success mb-3' id='download_presentees'>Download</a>";
-		require('C:\xampp\htdocs\Attendance\mydb.php');
-		$query="SELECT * FROM SEC_B WHERE id IN (SELECT sid FROM $subject WHERE date=CURDATE()) ORDER BY s_no;";
-		$result=mysqli_query($connection, $query);
-		if($result)
-		{
-			if(mysqli_num_rows($result))
-			{
-				echo "<table border id='present'>";
-				echo "<yr><th>S. No</th><th>ID</th><th>Name</th><th>Subject</th><th>Status</th></tr>";
-				while($row=mysqli_fetch_assoc($result))
-				{
-					echo "<tr><td>".$row['s_no']."</td><td>".$row['id']."</td><td>".$row['name']."</td><td>".$subject."</td><td>Present</td></tr>";
-				}
-				echo "</table>";
-			}
-		}
-		else
-		{
-			echo $query."<br>";
-			echo "error: ".mysqli_error($result);
-		}
-	}
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,12 +38,6 @@
 						echo '</div>';
 					echo '</div>';
 
-					echo '<div class="row text-center">';
-					require('C:\xampp\htdocs\Attendance\.admin\take_attendance.php');
-					echo '</div>';
-				}
-				if(isset($_POST['close_attendance']))
-				{
 					echo '<div class="row text-center">';
 					require('C:\xampp\htdocs\Attendance\.admin\take_attendance.php');
 					echo '</div>';
