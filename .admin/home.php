@@ -1,4 +1,9 @@
 <?php 
+	if(isset($POST['logout']))
+	{
+		header('Location:/../Attendance/.admin/');
+	}
+
 	require('C:\xampp\htdocs\Attendance\mydb.php');
 	$query="UPDATE ADMIN SET active=null;";
 	$result=mysqli_query($connection, $query);
@@ -19,6 +24,7 @@
 <body>
 	<div class="container text-center my-5">
 		<div class="row">
+			<a href="/../Attendance/.admin/" class="btn btn-danger mb-5">Log Out</a>
 			<div class="col-lg-4 col-10 m-auto bg-secondary">
 				<h1>Select the Subject</h1>
 				<form action="show.php" method="POST" class="form-floating m-2 ">

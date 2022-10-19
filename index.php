@@ -1,7 +1,11 @@
 <?php 
 	session_start();
 	$address=$_SERVER['REMOTE_ADDR'];
-	echo $address;
+	//echo $address;
+	if(!islocal($address))
+	{
+		header('Location:not_local.php');
+	}
 
 	$error=null;
 	$MAC = exec('getmac');
@@ -62,27 +66,37 @@
 	
 	function islocal($address)
 	{
+		//$address='';
 		if($address)
 		{
-
+			$sub=substr($address, 0, 7);
+			$list=explode('.', $address);
+			//print_r($list);
+			if($list[0]=='192' && $list[1]=='168')
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 
-	function GetClientMac(){
-    $macAddr=false;
-    $arp=`arp -n`;
-    $lines=explode("\n", $arp);
+	function GetClientMac()
+	{
+	    $macAddr=false;
+	    $arp=`arp -n`;
+	    $lines=explode("\n", $arp);
 
-    foreach($lines as $line){
-        $cols=preg_split('/\s+/', trim($line));
+	    foreach($lines as $line)
+	    {
+	        $cols=preg_split('/\s+/', trim($line));
 
-        if ($cols[0]==$_SERVER['REMOTE_ADDR']){
-            $macAddr=$cols[2];
-        }
-    }
-
-    return $macAddr;
-}
+	        if ($cols[0]==$_SERVER['REMOTE_ADDR'])
+	        {
+	            $macAddr=$cols[2];
+	        }
+	    }
+	    return $macAddr;
+	}
 ?>
 
 <!DOCTYPE html>
