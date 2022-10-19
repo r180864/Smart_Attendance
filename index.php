@@ -91,10 +91,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Attendance</title>
+	<link rel="icon" type="x-icon/image" href="/../Attendence/.images/logo.png">
 	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
   	<link href=".bootstrap/css/bootstrap.min.css" rel="stylesheet">
   	<script src=".bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
 </head>
 <body>

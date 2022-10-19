@@ -21,6 +21,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Closed</title>
+	<link rel="icon" type="x-icon/image" href="/../Attendance/images/logo.png">
 </head>
 <body>
 	<h1>Attendance is not taking now...<br>Please wait for next class</h1>
